@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions, generics
+from rest_framework import viewsets, permissions, generics, status
 from django.shortcuts import get_object_or_404
 from rest_framework.parsers import MultiPartParser
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import action
 
 # Create your views here.
 from APP_main.models import CheckupModel
@@ -88,6 +89,19 @@ class CheckupViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({"status": "Successfully Updated!"})
+
+
+class CheckupUpdateViewSet(viewsets.ModelViewSet):
+    queryset = CheckupModel.objects.all()
+    serializer_class = CheckupModelSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    @action(detail=True, methods=['PUT'])
+    def mark_as_rejected(self, request, pk, **kwargs):
+        checkup = CheckupModel.objects.get(pk=pk)
+        checkup.assigned_doctor = None
+        checkup.save()
+        return Response({"status": "Successfully rejected!"})
 
 
 class PredictionView(APIView):

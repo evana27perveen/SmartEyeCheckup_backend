@@ -11,7 +11,7 @@ class CheckupModel(models.Model):
     eye_vision = models.FileField(upload_to='eye_vision/')
     predicted_result = models.CharField(max_length=500)
     doc_comment = models.TextField(blank=True, null=True)
-    date = models.DateField(auto_now_add=True)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'Eye Checkup for {self.patient.full_name} - {self.date}'

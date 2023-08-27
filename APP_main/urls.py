@@ -11,4 +11,5 @@ urlpatterns = [
     path('upload/', PredictionView.as_view()),
     path('checkups/', CheckupViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('checkups/<int:pk>/', CheckupViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+    path('checkup-update/<int:pk>/mark_as_rejected/', CheckupUpdateViewSet.as_view({'put': 'mark_as_rejected'})),
 ]
